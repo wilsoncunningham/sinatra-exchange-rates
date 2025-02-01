@@ -24,14 +24,19 @@ get("/") do
 end
 
 get("/:currency1") do
-  @currency1 = :currency1
   @currency_list = currency_list
 
   erb(:step_one)
 end
 
-get("/:currency2") do
-  @currency_list = currency_list
+get("/:currency1/:currency2") do
+  @currency1 = params.fetch("currency1")
+  @currency2 = params.fetch("currency2")
 
+  exchange_url = "https://api.exchangerate.host/convert?from=#{@currency1}&to=#{@currency2}&amount=1&access_key=#{EXCHANGE_API_KEY}"
+  exchange_raw = HTTP.get(exchange_url)
+  exchange_parsed = JSON.parse(exchange_raw)
+
+  @result = exchange_parsed.fetch("result")
   erb(:step_two)
 end
