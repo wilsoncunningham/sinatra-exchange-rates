@@ -12,7 +12,7 @@ currency_list_parsed = JSON.parse(currency_list_raw)
 currencies_hash = currency_list_parsed.fetch("currencies")
 
 currency_list = []
-currencies_hash.each do |currency, _|
+currencies_hash.keys.each do |currency|
   currency_list.append(currency)
 end
 
